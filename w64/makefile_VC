@@ -172,7 +172,7 @@ OBJSET = \
 ..\src\zlib\zutil.obj
 
 .c.obj:
-        cl.exe $(CFLAGS) /Fo$*.obj /c $*.c
+	cl.exe $(CFLAGS) /Fo$*.obj /c $*.c
 
 all: glpk.lib glpsol.exe
 
@@ -187,6 +187,7 @@ glpk.lib: $(OBJSET)
                 ..\src\minisat\*.obj \
                 ..\src\misc\*.obj \
                 ..\src\proxy\*.obj \
+                ..\src\simplex\*.obj \
                 ..\src\zlib\*.obj
 
 glpsol.exe: ..\examples\glpsol.obj glpk.lib
