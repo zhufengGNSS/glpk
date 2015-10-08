@@ -1,6 +1,25 @@
 /* spxlp.c */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #include "env.h"
 #include "spxlp.h"
@@ -565,7 +584,7 @@ double spx_update_d(SPXLP *lp, double d[/*1+n-m*/], int p, int q,
       /* compute relative error in d[q] */
       e = fabs(dq - d[q]) / (1.0 + fabs(dq));
       /* compute new d[q], which is the reduced cost of xB[p] in the
-         adjacent basis */
+       * adjacent basis */
       d[q] = (dq /= tcol[p]);
       /* compute new d[j] for all j != q */
       for (j = 1; j <= n-m; j++)

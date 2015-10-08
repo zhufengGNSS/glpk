@@ -1,6 +1,25 @@
 /* spxnt.h */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #ifndef SPXNT_H
 #define SPXNT_H
@@ -14,18 +33,18 @@ struct SPXNT
        * matrix A, in sparse row-wise format */
       int *ptr; /* int ptr[1+m]; */
       /* ptr[0] is not used;
-         ptr[i], 1 <= i <= m, is starting position of i-th row in
-         arrays ind and val; note that ptr[1] is always 1;
-         these starting positions are set up *once* as if they would
-         correspond to rows of matrix A stored without gaps, i.e.
-         ptr[i+1] - ptr[i] is the number of non-zeros in i-th (i < m)
-         row of matrix A, and (nnz+1) - ptr[m] is the number of
-         non-zero in m-th (last) row of matrix A, where nnz is the
-         total number of non-zeros in matrix A */
+       * ptr[i], 1 <= i <= m, is starting position of i-th row in
+       * arrays ind and val; note that ptr[1] is always 1;
+       * these starting positions are set up *once* as if they would
+       * correspond to rows of matrix A stored without gaps, i.e.
+       * ptr[i+1] - ptr[i] is the number of non-zeros in i-th (i < m)
+       * row of matrix A, and (nnz+1) - ptr[m] is the number of
+       * non-zero in m-th (last) row of matrix A, where nnz is the
+       * total number of non-zeros in matrix A */
       int *len; /* int len[1+m]; */
       /* len[0] is not used;
-         len[i], 1 <= i <= m, is the number of non-zeros in i-th row
-         of current matrix N */
+       * len[i], 1 <= i <= m, is the number of non-zeros in i-th row
+       * of current matrix N */
       int *ind; /* int ind[1+nnz]; */
       /* column indices */
       double *val; /* double val[1+nnz]; */

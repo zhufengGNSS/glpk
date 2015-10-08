@@ -1,6 +1,25 @@
 /* spxprob.c */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #include "env.h"
 #include "spxprob.h"
@@ -328,7 +347,7 @@ void spx_build_basis(SPXLP *lp, glp_prob *P, const int map[])
       char *flag = lp->flag;
       int i, j, k, ii, jj;
       /* original basis factorization should be valid that guarantees
-         the basis is correct */
+       * the basis is correct */
       xassert(P->m == m);
       xassert(P->valid);
       /* initialize basis header for working LP */
@@ -577,7 +596,7 @@ void spx_store_sol(SPXLP *lp, glp_prob *P, int shift,
             xassert(row->type == GLP_FX);
             row->prim = row->lb;
             /* compute reduced cost d[k] = c[k] - A'[k] * pi as if x[k]
-               would be non-basic in working LP */
+             * would be non-basic in working LP */
             row->dual = - dir * pi[i] * row->rii;
          }
          else
@@ -610,9 +629,9 @@ void spx_store_sol(SPXLP *lp, glp_prob *P, int shift,
             xassert(col->type == GLP_FX);
             col->prim = col->lb;
             /* compute reduced cost d[k] = c[k] - A'[k] * pi as if x[k]
-               would be non-basic in working LP */
+             * would be non-basic in working LP */
             /* (note that sjj scale factor is cancelled) */
-            dk = col->coef;
+            dk = dir * col->coef;
             for (aij = col->ptr; aij != NULL; aij = aij->c_next)
                dk += (aij->row->rii * aij->val) * pi[aij->row->i];
             col->dual = dir * dk;

@@ -11,6 +11,7 @@ CFLAGS = \
 /I..\src\minisat \
 /I..\src\misc \
 /I..\src\proxy \
+/I..\src\simplex \
 /I..\src\zlib \
 /DHAVE_CONFIG_H=1 \
 /D_CRT_SECURE_NO_WARNINGS=1 \
@@ -172,7 +173,7 @@ OBJSET = \
 ..\src\zlib\zutil.obj
 
 .c.obj:
-	cl.exe $(CFLAGS) /Fo$*.obj /c $*.c
+        cl.exe $(CFLAGS) /Fo$*.obj /c $*.c
 
 all: glpk.lib glpsol.exe
 

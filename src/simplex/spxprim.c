@@ -1,6 +1,25 @@
 /* spxprim.c */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #include "env.h"
 #include "glpspx.h"
@@ -117,8 +136,8 @@ struct csa
       /* simplex iteration count at the beginning of the search */
       int it_cnt;
       /* simplex iteration count; it increases by one every time the
-         basis changes (including the case when a non-basic variable
-         jumps to its opposite bound) */
+       * basis changes (including the case when a non-basic variable
+       * jumps to its opposite bound) */
       int it_dpy;
       /* simplex iteration count at most recent display output */
       int inv_cnt;
@@ -516,8 +535,8 @@ try:  /* choose non-basic variable xN[q] */
             d[q] < 0.0 ? +1. : -1., tcol, &p_flag , csa->tol_piv,
             .50 * csa->tol_bnd, .50 * csa->tol_bnd1);
       }
-      /* either keep the previous choice or accept the new choice
-         depending on which one is better */
+      /* either keep previous choice or accept new choice depending on
+       * which one is better */
       if (csa->q == 0 || p <= 0 ||
          fabs(tcol[p]) > fabs(csa->tcol[csa->p]))
       {  csa->q = q;
@@ -525,7 +544,7 @@ try:  /* choose non-basic variable xN[q] */
          csa->p = p;
          csa->p_flag = p_flag;
       }
-      /* check if the current choice is acceptable */
+      /* check if current choice is acceptable */
       if (p <= 0 || fabs(csa->tcol[csa->p]) >= 0.001)
          goto done;
       if (nnn == 1)
@@ -657,6 +676,7 @@ static int primal_simplex(struct csa *csa)
       int m = lp->m;
       int n = lp->n;
       double *c = lp->c;
+      int *head = lp->head;
       SPXAT *at = csa->at;
       SPXNT *nt = csa->nt;
       double *beta = csa->beta;
@@ -903,8 +923,8 @@ loop: /* main loop starts here */
          csa->d_st = 2;
          if (csa->phase == 1)
          {  /* adjust reduced cost of xN[q] in adjacent basis, since
-               its penalty coefficient changes (see below) */
-            d[csa->q] -= c[lp->head[csa->p]];
+             * its penalty coefficient changes (see below) */
+            d[csa->q] -= c[head[csa->p]];
          }
       }
       else
@@ -914,7 +934,7 @@ loop: /* main loop starts here */
       if (csa->phase == 1)
       {  /* xB[p] leaves the basis replacing xN[q], so set its penalty
           * coefficient to zero */
-         c[lp->head[csa->p]] = 0.0;
+         c[head[csa->p]] = 0.0;
       }
       /* update steepest edge weights for adjacent basis, if used */
       if (se != NULL)
@@ -941,7 +961,7 @@ skip: /* change current basis header to adjacent one */
       spx_change_basis(lp, csa->p, csa->p_flag, csa->q);
       /* and update factorization of the basis matrix */
       if (csa->p > 0)
-         spx_update_invb(lp, csa->p, lp->head[csa->p]);
+         spx_update_invb(lp, csa->p, head[csa->p]);
       /* simplex iteration complete */
       csa->it_cnt++;
       goto loop;
@@ -1062,23 +1082,40 @@ int spx_primal(glp_prob *P, const glp_smcp *parm)
       P->pbs_stat = csa->p_stat;
       P->dbs_stat = csa->d_stat;
       /* if the solver failed, do not store basis header and basic
-         solution components to problem object */
+       * solution components to problem object */
       if (ret == GLP_EFAIL)
          goto skip;
       /* convert working LP basis to original LP basis and store it to
-         problem object */
+       * problem object */
       daeh = talloc(1+csa->lp->n, int);
       spx_store_basis(csa->lp, P, map, daeh);
       /* compute simplex multipliers for final basic solution found by
-         the solver */
+       * the solver */
       spx_eval_pi(csa->lp, csa->work);
       /* convert working LP solution to original LP solution and store
-         it to problem object */
+       * it to problem object */
       spx_store_sol(csa->lp, P, SHIFT, map, daeh, csa->beta, csa->work,
          csa->d);
       tfree(daeh);
       /* save simplex iteration count */
       P->it_cnt = csa->it_cnt;
+      /* report auxiliary/structural variable causing unboundedness */
+      P->some = 0;
+      if (csa->p_stat == GLP_FEAS && csa->d_stat == GLP_NOFEAS)
+      {  int k, kk;
+         /* xN[q] = x[k] causes unboundedness */
+         xassert(1 <= csa->q && csa->q <= csa->lp->n - csa->lp->m);
+         k = csa->lp->head[csa->lp->m + csa->q];
+         xassert(1 <= k && k <= csa->lp->n);
+         /* convert to number of original variable */
+         for (kk = 1; kk <= P->m + P->n; kk++)
+         {  if (abs(map[kk]) == k)
+            {  P->some = kk;
+               break;
+            }
+         }
+         xassert(P->some != 0);
+      }
 skip: /* deallocate working objects and arrays */
       spx_free_lp(csa->lp);
       tfree(map);

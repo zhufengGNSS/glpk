@@ -1,6 +1,25 @@
 /* spxnt.c */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #include "env.h"
 #include "spxnt.h"
@@ -39,7 +58,7 @@ void spx_init_nt(SPXLP *lp, SPXNT *nt)
       int *NT_len = nt->len;
       int i, k, ptr, end;
       /* calculate NT_len[i] = maximal number of non-zeros in i-th row
-         of N = number of non-zeros in i-th row of A */
+       * of N = number of non-zeros in i-th row of A */
       memset(&NT_len[1], 0, m * sizeof(int));
       for (k = 1; k <= n; k++)
       {  ptr = A_ptr[k];

@@ -1,6 +1,25 @@
 /* spxchuzc.c */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #include "env.h"
 #include "spxchuzc.h"
@@ -302,7 +321,7 @@ double spx_update_gamma(SPXLP *lp, SPXSE *se, int p, int q,
       xassert(1 <= p && p <= m);
       xassert(1 <= q && q <= n-m);
       /* compute gamma[q] in current basis more accurately; also
-         compute auxiliary vector u */
+       * compute auxiliary vector u */
       k = head[m+q]; /* x[k] = xN[q] */
       gamma_q = delta_q = (refsp[k] ? 1.0 : 0.0);
       for (i = 1; i <= m; i++)
@@ -330,7 +349,7 @@ double spx_update_gamma(SPXLP *lp, SPXSE *se, int p, int q,
          /* compute r[j] = T[p,j] / T[p,q] */
          r = trow[j] / tcol[p];
          /* compute inner product s[j] = N'[j] * u, where N[j] = A[k]
-            is constraint matrix column corresponding xN[j] */
+          * is constraint matrix column corresponding xN[j] */
          s = 0.0;
          k = head[m+j]; /* x[k] = xN[j] */
          ptr = lp->A_ptr[k];

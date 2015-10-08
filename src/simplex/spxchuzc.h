@@ -1,6 +1,25 @@
 /* spxchuzc.h */
 
-/* (reserved for copyright notice) */
+/***********************************************************************
+*  This code is part of GLPK (GNU Linear Programming Kit).
+*
+*  Copyright (C) 2015 Andrew Makhorin, Department for Applied
+*  Informatics, Moscow Aviation Institute, Moscow, Russia. All rights
+*  reserved. E-mail: <mao@gnu.org>.
+*
+*  GLPK is free software: you can redistribute it and/or modify it
+*  under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  GLPK is distributed in the hope that it will be useful, but WITHOUT
+*  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+*  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+*  License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with GLPK. If not, see <http://www.gnu.org/licenses/>.
+***********************************************************************/
 
 #ifndef SPXCHUZC_H
 #define SPXCHUZC_H
@@ -25,12 +44,12 @@ struct SPXSE
       /* content validity flag */
       char *refsp; /* char refsp[1+n]; */
       /* refsp[0] is not used;
-         refsp[k], 1 <= k <= n, is the flag meaning that variable x[k]
-         is in the reference space */
+       * refsp[k], 1 <= k <= n, is the flag meaning that variable x[k]
+       * is in the reference space */
       double *gamma; /* double gamma[1+n-m]; */
       /* gamma[0] is not used;
-         gamma[j], 1 <= j <= n-m, is the weight for reduced cost d[j]
-         of non-basic variable xN[j] in the current basis */
+       * gamma[j], 1 <= j <= n-m, is the weight for reduced cost d[j]
+       * of non-basic variable xN[j] in the current basis */
       double *work; /* double work[1+m]; */
       /* working array */
 };
