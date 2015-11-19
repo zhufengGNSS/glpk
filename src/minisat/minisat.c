@@ -143,13 +143,13 @@ struct clause_t
 /* Encode literals in clause pointers: */
 
 #define clause_from_lit(l) \
-      (clause*)((unsigned long)(l) + (unsigned long)(l) + 1)
+      (clause*)((size_t)(l) + (size_t)(l) + 1)
 
 #define clause_is_lit(c) \
-      ((unsigned long)(c) & 1)
+      ((size_t)(c) & 1)
 
 #define clause_read_lit(c) \
-      (lit)((unsigned long)(c) >> 1)
+      (lit)((size_t)(c) >> 1)
 
 /*====================================================================*/
 /* Simple helpers: */
@@ -332,8 +332,9 @@ static clause* clause_new(solver* s, lit* begin, lit* end, int learnt)
     c              = (clause*)malloc(sizeof(clause)
                      + sizeof(lit) * size + learnt * sizeof(float));
     c->size_learnt = (size << 1) | learnt;
-#if 0 /* by mao; meaningless non-portable check */
-    assert(((unsigned int)c & 1) == 0);
+#if 1 /* by mao; meaningless non-portable check */
+    /* cmatraki: This is a fundamental assumption of minisat code. */
+    assert(((size_t)c & 1) == 0);
 #endif
 
     for (i = 0; i < size; i++)

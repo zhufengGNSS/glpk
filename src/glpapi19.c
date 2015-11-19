@@ -49,9 +49,9 @@ int glp_minisat1(glp_prob *P)
          goto done;
       }
 #if 1 /* 07/XI-2015 */
-      if (sizeof(void *) != sizeof(int))
+      if (sizeof(void *) != sizeof(size_t))
       {  xprintf("glp_minisat1: sorry, MiniSat solver is not supported "
-            "on 64-bit platforms\n");
+            "on this platform\n");
          ret = GLP_EFAIL;
          goto done;
       }
