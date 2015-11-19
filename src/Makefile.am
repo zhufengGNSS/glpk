@@ -19,7 +19,8 @@ libglpk_la_CPPFLAGS = \
 
 libglpk_la_LDFLAGS = \
 -version-info 38:0:2 \
--export-symbols-regex '^glp_*'
+-export-symbols-regex '^glp_*' \
+${NOUNDEFINED}
 
 libglpk_la_SOURCES = \
 avl.c \

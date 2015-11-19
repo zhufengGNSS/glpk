@@ -636,6 +636,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+NOUNDEFINED
 CPP
 OTOOL64
 OTOOL
@@ -11469,6 +11470,23 @@ else
    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if libtool needs -no-undefined flag to build shared libraries" >&5
+$as_echo_n "checking if libtool needs -no-undefined flag to build shared libraries... " >&6; }
+case "${host}" in
+   *-*-cygwin* | *-*-mingw* | *-*-aix*)
+      ## Add in the -no-undefined flag to LDFLAGS for libtool.
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+      NOUNDEFINED=" -no-undefined"
+      ;;
+   *)
+      ## Don't add in anything.
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+      ;;
+esac
+
 
 ac_config_files="$ac_config_files src/Makefile examples/Makefile Makefile"
 

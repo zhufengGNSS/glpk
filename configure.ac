@@ -141,6 +141,21 @@ else
    AC_MSG_RESULT([no])
 fi
 
+AC_MSG_CHECKING(
+   [if libtool needs -no-undefined flag to build shared libraries])
+case "${host}" in
+   *-*-cygwin* | *-*-mingw* | *-*-aix*)
+      ## Add in the -no-undefined flag to LDFLAGS for libtool.
+      AC_MSG_RESULT([yes])
+      NOUNDEFINED=" -no-undefined"
+      ;;
+   *)
+      ## Don't add in anything.
+      AC_MSG_RESULT([no])
+      ;;
+esac
+AC_SUBST([NOUNDEFINED])
+
 AC_CONFIG_FILES(
    [src/Makefile examples/Makefile Makefile])
 AC_OUTPUT
